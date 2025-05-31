@@ -180,5 +180,8 @@ def download_table_csv(n, category, region, start_date, end_date):
                      (df['Date'] >= start_date) & (df['Date'] <= end_date)]
     return dcc.send_data_frame(filtered_df.to_csv, filename="filtered_table_data.csv", index=False)
 
+import os
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 8050))
+    app.run(host="0.0.0.0", port=port, debug=True)
