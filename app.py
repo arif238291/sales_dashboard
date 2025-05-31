@@ -10,7 +10,7 @@ df['Region'] = df['Region'].astype(str).str.strip().str.title()
 df['Date'] = pd.to_datetime(df['Date'])
 
 # Initialize Dash app
-app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY], suppress_callback_exceptions=True)
+app = Dash(__name__, external_stylesheets=[dbc.themes.LUX], suppress_callback_exceptions=True)
 app.title = "Professional Sales Dashboard"
 
 # Layout
@@ -182,7 +182,7 @@ def update_dashboard(store, product, start_date, end_date):
     avg_price = round(filtered_df['Price'].mean(), 2)
     most_cat = filtered_df['Category'].value_counts().idxmax()
     total_units = int(filtered_df['Units Sold'].sum())
-    total_revenue = round((filtered_df['Units Sold'] * filtered_df['Price']).sum(), 2)
+    total_revenue = int((filtered_df['Units Sold'] * filtered_df['Price']).sum())
     total_orders = int(filtered_df['Units Ordered'].sum())
 
     return str(total_demand), f"${avg_price}", most_cat, str(total_units), f"${total_revenue}", str(total_orders)
@@ -266,4 +266,4 @@ def download_table_csv(n, category, region, start_date, end_date):
     return dcc.send_data_frame(filtered_df.to_csv, filename="filtered_table_data.csv", index=False)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
