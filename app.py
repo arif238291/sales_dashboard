@@ -10,7 +10,7 @@ df['Region'] = df['Region'].astype(str).str.strip().str.title()
 df['Date'] = pd.to_datetime(df['Date'])
 
 # Initialize Dash app
-app = Dash(__name__, external_stylesheets=[dbc.themes.LUX], suppress_callback_exceptions=True)
+app = Dash(__name__, external_stylesheets=[dbc.themes.YETI], suppress_callback_exceptions=True)
 app.title = "Professional Sales Dashboard"
 
 # Layout
@@ -67,32 +67,56 @@ app.layout = dbc.Container([
 def dashboard_tab():
     return html.Div([
         dbc.Row([
-            dbc.Col(dbc.Card([dbc.CardBody([
-                html.H5(id="total-demand", className="card-title text-success fw-bold display-6"),
-                html.P("Total Units Demand", className="text-muted")
-            ])], color="light"), width=2),
-            dbc.Col(dbc.Card([dbc.CardBody([
-                html.H5(id="total-orders", className="card-title text-secondary fw-bold display-6"),
-                html.P("Total Units Order", className="text-muted")
-            ])], color="light"), width=2),
-            dbc.Col(dbc.Card([dbc.CardBody([
-                html.H5(id="total-units", className="card-title text-primary fw-bold display-6"),
-                html.P("Total Units Sold ", className="text-muted")
-            ])], color="light"), width=2),
-            dbc.Col(dbc.Card([dbc.CardBody([
-                html.H5(id="total-revenue", className="card-title text-danger fw-bold display-6"),
-                html.P("Total Revenue", className="text-muted")
-            ])], color="light"), width=2),
-            dbc.Col(dbc.Card([dbc.CardBody([
-                html.H5(id="avg-price", className="card-title text-warning fw-bold display-6"),
-                html.P("Average Price per Unit", className="text-muted")
-            ])], color="light"), width=2),
-            dbc.Col(dbc.Card([dbc.CardBody([
-                html.H5(id="most-sold-cat", className="card-title text-info fw-bold display-6"),
-                html.P("Most Sold Category", className="text-muted")
-            ])], color="light"), width=3),
-        ], className="mb-4"),
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.Div(html.H5(id="total-demand", className="fw-bold text-success"),
+                             style={"whiteSpace": "nowrap", "textAlign": "center", "fontSize": "1.5rem"}),
+                    html.P("Total Demand", className="text-muted text-center small")
+                ])
+            ]), xs=12, md=6, lg=2),
 
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.Div(html.H5(id="avg-price", className="fw-bold text-warning"),
+                             style={"whiteSpace": "nowrap", "textAlign": "center", "fontSize": "1.5rem"}),
+                    html.P("Average Price", className="text-muted text-center small")
+                ])
+            ]), xs=12, md=6, lg=2),
+
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.Div(html.H5(id="most-sold-cat", className="fw-bold text-info"),
+                             style={"whiteSpace": "nowrap", "textAlign": "center", "fontSize": "1.5rem"}),
+                    html.P("Most Sold Category", className="text-muted text-center small")
+                ])
+            ]), xs=12, md=6, lg=3),
+
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.Div(html.H5(id="total-units", className="fw-bold text-primary"),
+                             style={"whiteSpace": "nowrap", "textAlign": "center", "fontSize": "1.5rem"}),
+                    html.P("Total Units Sold", className="text-muted text-center small")
+                ])
+            ]), xs=12, md=6, lg=2),
+
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.Div(html.H5(id="total-revenue", className="fw-bold text-danger"),
+                             style={"whiteSpace": "nowrap", "textAlign": "center", "fontSize": "1.5rem"}),
+                    html.P("Total Revenue", className="text-muted text-center small")
+                ])
+            ]), xs=12, md=6, lg=2),
+
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.Div(html.H5(id="total-orders", className="fw-bold text-secondary"),
+                             style={"whiteSpace": "nowrap", "textAlign": "center", "fontSize": "1.5rem"}),
+                    html.P("Total Orders", className="text-muted text-center small")
+                ])
+            ]), xs=12, md=6, lg=2),
+        ], className="mb-4 g-2"),
+
+        # Dropdown + charts
         html.Div([
             html.Label("Sales Grouped by", className="fw-semibold text-primary"),
             dcc.Dropdown(
@@ -105,10 +129,11 @@ def dashboard_tab():
                 clearable=False,
                 className="mb-3"
             ),
-            dcc.Graph(id='units-sold-line-chart'),
-            dcc.Graph(id='units-sold-bar-chart')
+            dcc.Graph(id='units-sold-line-chart', config={"responsive": True}),
+            dcc.Graph(id='units-sold-bar-chart', config={"responsive": True})
         ])
     ])
+
 
 
 
