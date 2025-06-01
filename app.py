@@ -71,18 +71,23 @@ def dashboard_tab():
                 dbc.CardBody([
                     html.Div(html.H5(id="total-demand", className="fw-bold text-success"),
                              style={"whiteSpace": "nowrap", "textAlign": "center", "fontSize": "1.5rem"}),
-                    html.P("Total Demand", className="text-muted text-center small")
+                    html.P("Total Units Demand", className="text-muted text-center small")
                 ])
             ]), xs=12, md=6, lg=2),
-
             dbc.Col(dbc.Card([
                 dbc.CardBody([
-                    html.Div(html.H5(id="avg-price", className="fw-bold text-warning"),
+                    html.Div(html.H5(id="total-orders", className="fw-bold text-secondary"),
                              style={"whiteSpace": "nowrap", "textAlign": "center", "fontSize": "1.5rem"}),
-                    html.P("Average Price", className="text-muted text-center small")
+                    html.P("Total Units Order", className="text-muted text-center small")
                 ])
             ]), xs=12, md=6, lg=2),
-
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.Div(html.H5(id="total-units", className="fw-bold text-primary"),
+                             style={"whiteSpace": "nowrap", "textAlign": "center", "fontSize": "1.5rem"}),
+                    html.P("Total Units Sold", className="text-muted text-center small")
+                ])
+            ]), xs=12, md=6, lg=2),
             dbc.Col(dbc.Card([
                 dbc.CardBody([
                     html.Div(html.H5(id="most-sold-cat", className="fw-bold text-info"),
@@ -93,12 +98,11 @@ def dashboard_tab():
 
             dbc.Col(dbc.Card([
                 dbc.CardBody([
-                    html.Div(html.H5(id="total-units", className="fw-bold text-primary"),
+                    html.Div(html.H5(id="avg-price", className="fw-bold text-warning"),
                              style={"whiteSpace": "nowrap", "textAlign": "center", "fontSize": "1.5rem"}),
-                    html.P("Total Units Sold", className="text-muted text-center small")
+                    html.P("Average Price", className="text-muted text-center small")
                 ])
             ]), xs=12, md=6, lg=2),
-
             dbc.Col(dbc.Card([
                 dbc.CardBody([
                     html.Div(html.H5(id="total-revenue", className="fw-bold text-danger"),
@@ -107,13 +111,7 @@ def dashboard_tab():
                 ])
             ]), xs=12, md=6, lg=2),
 
-            dbc.Col(dbc.Card([
-                dbc.CardBody([
-                    html.Div(html.H5(id="total-orders", className="fw-bold text-secondary"),
-                             style={"whiteSpace": "nowrap", "textAlign": "center", "fontSize": "1.5rem"}),
-                    html.P("Total Orders", className="text-muted text-center small")
-                ])
-            ]), xs=12, md=6, lg=2),
+            
         ], className="mb-4 g-2"),
 
         # Dropdown + charts
@@ -289,7 +287,6 @@ def download_table_csv(n, category, region, start_date, end_date):
                      (df['Region'] == region) &
                      (df['Date'] >= start_date) & (df['Date'] <= end_date)]
     return dcc.send_data_frame(filtered_df.to_csv, filename="filtered_table_data.csv", index=False)
-
 server = app.server  # Required for Render
 
 if __name__ == '__main__':
